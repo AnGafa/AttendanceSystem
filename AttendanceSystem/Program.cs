@@ -189,17 +189,33 @@ namespace AttendanceSystem
         
         public void AddTeacher()
         {
-            Console.WriteLine("Input Student ID:");
-            int userStudentID = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine("Input Teacher ID:");
+            int userTeacherID = Convert.ToInt32(Console.ReadLine());
 
-            Console.WriteLine("Input Student Name:");
-            string userStudentName = Console.ReadLine();
+            Console.WriteLine("Input Teacher Username:");
+            string userTeacherUsername = Console.ReadLine();
 
-            Console.WriteLine("Input Student Surname:");
-            string userStudentSurname = Console.ReadLine();
+            Console.WriteLine("Input Teacher Password:");
+            string userTeacherPassword = Console.ReadLine();
 
-            Console.WriteLine("Input Student Email:");
-            string userStudentEmail = Console.ReadLine();
+            Console.WriteLine("Input Teacher Name:");
+            string userTeacherName = Console.ReadLine();
+
+            Console.WriteLine("Input Teacher Surname:");
+            string userTeacherSurname = Console.ReadLine();
+
+            Console.WriteLine("Input Teacher Email:");
+            string userTeacherEmail = Console.ReadLine();
+
+            try
+            {
+                teacherService.addNewTeacher(userTeacherID, userTeacherUsername, userTeacherPassword, userTeacherName, userTeacherSurname, userTeacherEmail);
+                Console.WriteLine("Record entered. Press any key to continue...");
+            }
+            catch
+            {
+
+            }
         }
     }
 

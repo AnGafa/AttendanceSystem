@@ -37,5 +37,19 @@ namespace DataAccess
             else
                 return 0;
         }
+        public void addNewTeacher(int teacherID, string teacherUsername, string teacherPassword, string teacherName, string teacherSurname, string teacherEmail)
+        {
+            Teacher newTeacher = new Teacher();
+            newTeacher.TeacherID = teacherID;
+            newTeacher.Username = teacherUsername;
+            newTeacher.Password = teacherPassword;
+            newTeacher.Name = teacherName;
+            newTeacher.Surname = teacherSurname;
+            newTeacher.Email = teacherEmail;
+
+            MyConnection.Teachers.Add(newTeacher);
+            MyConnection.SaveChanges();
+        }
+
     }
 }

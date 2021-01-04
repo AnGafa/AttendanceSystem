@@ -10,25 +10,30 @@ namespace BusinessLogic
 {
     public class TeacherService
     {
-        private TeacherRepository _TeacherRepo;
+        private TeacherRepository _teacherRepo;
         public TeacherService()
         {
-            _TeacherRepo = new TeacherRepository();
+            _teacherRepo = new TeacherRepository();
         }
 
         public List<Teacher> GetTeachers()
         {
-            return _TeacherRepo.GetTeachers().ToList();
+            return _teacherRepo.GetTeachers().ToList();
         }
 
         public bool DoesTeacherExist(string uName)
         {
-            return _TeacherRepo.DoesTeacherExist(uName);
+            return _teacherRepo.DoesTeacherExist(uName);
         }
 
         public int VerifyCredentials(string userName, string password)
         {
-            return _TeacherRepo.VerifyCredentials(userName, password);
+            return _teacherRepo.VerifyCredentials(userName, password);
+        }
+
+        public void addNewTeacher(int teacherID, string teacherUsername, string teacherPassword, string teacherName, string teacherSurname, string teacherEmail)
+        {
+            _teacherRepo.addNewTeacher(teacherID, teacherUsername, teacherPassword, teacherName, teacherSurname, teacherEmail);
         }
     }
 }
