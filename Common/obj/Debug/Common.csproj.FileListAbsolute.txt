@@ -1,0 +1,11 @@
+C:\Users\andre\source\repos\AttendanceSystem\Common\bin\Debug\Common.dll.config
+C:\Users\andre\source\repos\AttendanceSystem\Common\bin\Debug\Common.dll
+C:\Users\andre\source\repos\AttendanceSystem\Common\bin\Debug\Common.pdb
+C:\Users\andre\source\repos\AttendanceSystem\Common\bin\Debug\EntityFramework.dll
+C:\Users\andre\source\repos\AttendanceSystem\Common\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\andre\source\repos\AttendanceSystem\Common\bin\Debug\EntityFramework.xml
+C:\Users\andre\source\repos\AttendanceSystem\Common\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\andre\source\repos\AttendanceSystem\Common\obj\Debug\Common.csproj.CoreCompileInputs.cache
+C:\Users\andre\source\repos\AttendanceSystem\Common\obj\Debug\Common.csproj.CopyComplete
+C:\Users\andre\source\repos\AttendanceSystem\Common\obj\Debug\Common.dll
+C:\Users\andre\source\repos\AttendanceSystem\Common\obj\Debug\Common.pdb

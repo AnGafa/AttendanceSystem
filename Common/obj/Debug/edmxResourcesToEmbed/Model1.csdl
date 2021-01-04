@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="AttendanceDatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Group">
+    <Key>
+      <PropertyRef Name="GroupID" />
+    </Key>
+    <Property Name="GroupID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Course" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Lessons" Relationship="Self.FK_Lesson_Group" FromRole="Group" ToRole="Lesson" />
+    <NavigationProperty Name="Students" Relationship="Self.FK_Student_Group" FromRole="Group" ToRole="Student" />
+  </EntityType>
+  <EntityType Name="Lesson">
+    <Key>
+      <PropertyRef Name="LessonID" />
+    </Key>
+    <Property Name="LessonID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="GroupFK" Type="Int32" Nullable="false" />
+    <Property Name="DateTime" Type="DateTime" Precision="3" />
+    <Property Name="TeacherFK" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Group" Relationship="Self.FK_Lesson_Group" FromRole="Lesson" ToRole="Group" />
+    <NavigationProperty Name="Teacher" Relationship="Self.FK_Lesson_Teacher" FromRole="Lesson" ToRole="Teacher" />
+    <NavigationProperty Name="StudentAttendances" Relationship="Self.FK_StudentAttendance_Lesson" FromRole="Lesson" ToRole="StudentAttendance" />
+  </EntityType>
+  <EntityType Name="Student">
+    <Key>
+      <PropertyRef Name="StudentID" />
+    </Key>
+    <Property Name="StudentID" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="GroupFK" Type="Int32" />
+    <NavigationProperty Name="Group" Relationship="Self.FK_Student_Group" FromRole="Student" ToRole="Group" />
+    <NavigationProperty Name="StudentAttendances" Relationship="Self.FK_StudentAttendance_Student" FromRole="Student" ToRole="StudentAttendance" />
+  </EntityType>
+  <EntityType Name="StudentAttendance">
+    <Key>
+      <PropertyRef Name="AttendanceID" />
+    </Key>
+    <Property Name="AttendanceID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LessonFK" Type="Int32" Nullable="false" />
+    <Property Name="Presence" Type="Boolean" Nullable="false" />
+    <Property Name="StudentFK" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Lesson" Relationship="Self.FK_StudentAttendance_Lesson" FromRole="StudentAttendance" ToRole="Lesson" />
+    <NavigationProperty Name="Student" Relationship="Self.FK_StudentAttendance_Student" FromRole="StudentAttendance" ToRole="Student" />
+  </EntityType>
+  <EntityType Name="Teacher">
+    <Key>
+      <PropertyRef Name="TeacherID" />
+    </Key>
+    <Property Name="TeacherID" Type="Int32" Nullable="false" />
+    <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Lessons" Relationship="Self.FK_Lesson_Teacher" FromRole="Teacher" ToRole="Lesson" />
+  </EntityType>
+  <Association Name="FK_Lesson_Group">
+    <End Type="Self.Group" Multiplicity="1" Role="Group" />
+    <End Type="Self.Lesson" Multiplicity="*" Role="Lesson" />
+    <ReferentialConstraint>
+      <Principal Role="Group">
+        <PropertyRef Name="GroupID" />
+      </Principal>
+      <Dependent Role="Lesson">
+        <PropertyRef Name="GroupFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Student_Group">
+    <End Role="Group" Type="Self.Group" Multiplicity="0..1" />
+    <End Role="Student" Type="Self.Student" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Group">
+        <PropertyRef Name="GroupID" />
+      </Principal>
+      <Dependent Role="Student">
+        <PropertyRef Name="GroupFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Lesson_Teacher">
+    <End Role="Teacher" Type="Self.Teacher" Multiplicity="1" />
+    <End Role="Lesson" Type="Self.Lesson" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Teacher">
+        <PropertyRef Name="TeacherID" />
+      </Principal>
+      <Dependent Role="Lesson">
+        <PropertyRef Name="TeacherFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_StudentAttendance_Lesson">
+    <End Role="Lesson" Type="Self.Lesson" Multiplicity="1" />
+    <End Role="StudentAttendance" Type="Self.StudentAttendance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Lesson">
+        <PropertyRef Name="LessonID" />
+      </Principal>
+      <Dependent Role="StudentAttendance">
+        <PropertyRef Name="LessonFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_StudentAttendance_Student">
+    <End Role="Student" Type="Self.Student" Multiplicity="1" />
+    <End Role="StudentAttendance" Type="Self.StudentAttendance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Student">
+        <PropertyRef Name="StudentID" />
+      </Principal>
+      <Dependent Role="StudentAttendance">
+        <PropertyRef Name="StudentFK" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="AttendanceDatabaseEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Groups" EntityType="Self.Group" />
+    <EntitySet Name="Lessons" EntityType="Self.Lesson" />
+    <EntitySet Name="Students" EntityType="Self.Student" />
+    <EntitySet Name="StudentAttendances" EntityType="Self.StudentAttendance" />
+    <EntitySet Name="Teachers" EntityType="Self.Teacher" />
+    <AssociationSet Name="FK_Lesson_Group" Association="Self.FK_Lesson_Group">
+      <End EntitySet="Groups" Role="Group" />
+      <End EntitySet="Lessons" Role="Lesson" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Student_Group" Association="Self.FK_Student_Group">
+      <End Role="Group" EntitySet="Groups" />
+      <End Role="Student" EntitySet="Students" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Lesson_Teacher" Association="Self.FK_Lesson_Teacher">
+      <End Role="Teacher" EntitySet="Teachers" />
+      <End Role="Lesson" EntitySet="Lessons" />
+    </AssociationSet>
+    <AssociationSet Name="FK_StudentAttendance_Lesson" Association="Self.FK_StudentAttendance_Lesson">
+      <End Role="Lesson" EntitySet="Lessons" />
+      <End Role="StudentAttendance" EntitySet="StudentAttendances" />
+    </AssociationSet>
+    <AssociationSet Name="FK_StudentAttendance_Student" Association="Self.FK_StudentAttendance_Student">
+      <End Role="Student" EntitySet="Students" />
+      <End Role="StudentAttendance" EntitySet="StudentAttendances" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
