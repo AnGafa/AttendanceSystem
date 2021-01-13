@@ -46,7 +46,9 @@ namespace AttendanceSystem
             teacherMaintenanceMenu.AddMenuItem("Add group", AddGroup);
             teacherMaintenanceMenu.AddMenuItem("Add student", AddStudent);
             teacherMaintenanceMenu.AddMenuItem("Add teacher", AddTeacher);
-            //teacherMaintenanceMenu.AddMenuItem("Get list of attendance by student", ExecuteSubOption2);
+            teacherMaintenanceMenu.AddMenuItem("Check student attendance percentage", StudentPercentage);
+            teacherMaintenanceMenu.AddMenuItem("Get student attendance on a particular date", StudentAttendanceOnDate);
+            teacherMaintenanceMenu.AddMenuItem("Edit Student", EditStudent);
 
             teacherMaintenanceMenu.Run();
         }
@@ -216,6 +218,57 @@ namespace AttendanceSystem
             {
 
             }
+        }
+    
+        public void StudentPercentage()
+        {
+            Console.WriteLine("Enter Student ID");
+            int userStudentID = Convert.ToInt32(Console.ReadLine());
+
+            bool userExists = studentService.DoesStudentExist(userStudentID);
+
+            double t = 0;
+            double f = 0;
+
+            if(userExists)
+            {
+                foreach (var a in attendanceService.GetStudentAttendances(userStudentID))
+                { 
+                    if(a.Presence == true)
+                    {
+                        t++;
+                    }
+                    else
+                    {
+                        f++;
+                    }
+                }
+                double attPercentage = (t / (t + f)) * 100;
+                Console.WriteLine("Students attendance percentage is " + attPercentage+"%");
+            }
+        }
+
+        public void StudentAttendanceOnDate()
+        {
+            Console.WriteLine("Day:\t");
+            int userDay = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("Month:\t");
+            int userMonth = Convert.ToInt32(Console.ReadLine());
+
+            Console.WriteLine("Year:\t");
+            int userYear = Convert.ToInt32(Console.ReadLine());
+
+            DateTime userDateTime = new DateTime(userYear, userMonth, userDay);
+
+            int noOfAttendances = lessonService.GetNumberLessonsAtDate(loggedUserID, userDateTime);
+
+            Console.WriteLine("No" + noOfAttendances);
+        }
+        
+        public void EditStudent()
+        {
+
         }
     }
 

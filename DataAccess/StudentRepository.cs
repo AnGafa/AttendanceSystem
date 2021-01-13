@@ -18,6 +18,11 @@ namespace DataAccess
             return MyConnection.Students;
         }
 
+        public bool DoesStudentExist(int sID)
+        {
+            return MyConnection.Students.Any(s => s.StudentID.Equals(sID));
+        }
+
         public void addNewStudent(int studentID, string studentName, string studentSurname, string studentEmail, int studentGroupID)
         {
             Student newStudent = new Student();

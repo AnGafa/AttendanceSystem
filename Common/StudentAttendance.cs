@@ -21,5 +21,6 @@ namespace Common
     
         public virtual Lesson Lesson { get; set; }
         public virtual Student Student { get; set; }
+
     }
 }

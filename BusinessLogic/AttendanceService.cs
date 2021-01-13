@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
+
 namespace BusinessLogic
 {
     public class AttendanceService
@@ -45,5 +47,21 @@ namespace BusinessLogic
 
             this._attendanceRepo.AddStudentAttandanceRecord(lessonID, studentID, attandance);
         }
+
+        //public int GetNumberOfAttendances(DateTime userDateTime)
+        //{
+        //    LessonService lessonService = new LessonService();
+
+
+        //    List<Lesson> lessons = lessonService.GetLessonsAtDate(userDateTime);
+
+        //    Console.WriteLine("length" + lessons.Count);
+
+        //    foreach (var les in lessons)
+        //    {
+        //        Console.WriteLine(les.LessonID);
+        //    }
+        //    return 0;
+        //}
     }
 }

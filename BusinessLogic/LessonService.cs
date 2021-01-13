@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Common;
 using DataAccess;
 
@@ -19,6 +17,20 @@ namespace BusinessLogic
         public List<Lesson> GetLessons()
         {
             return _LessonRepo.GetLessons().ToList();
+        }
+
+        public int GetNumberLessonsAtDate(int loggedUserID, DateTime userDate)
+        {
+            List<Lesson> lessons =  _LessonRepo.GetLessons().Where(LessonID => (
+                LessonID.TeacherFK == loggedUserID &&
+                LessonID.DateTime.Value.Day == userDate.Day && 
+                LessonID.DateTime.Value.Month == userDate.Month && 
+                LessonID.DateTime.Value.Year == userDate.Year
+             )).ToList();
+
+
+
+            return lessons.Count;
         }
 
         public void Add(Lesson l)

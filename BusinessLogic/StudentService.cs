@@ -32,5 +32,11 @@ namespace BusinessLogic
         {
             _studentRepo.addNewStudent(studentID, studentName, studentSurname, studentEmail, studentGroupID);
         }
+
+        public bool DoesStudentExist(int sID)
+        {
+            return _studentRepo.DoesStudentExist(sID);
+        }
+
     }
 }
