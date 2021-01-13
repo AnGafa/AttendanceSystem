@@ -38,5 +38,9 @@ namespace BusinessLogic
             return _studentRepo.DoesStudentExist(sID);
         }
 
+        public void EditStudent(int studentID, string studentName, string studentSurname, string studentEmail)
+        {
+            _studentRepo.editStudent(studentID, studentName, studentSurname, studentEmail);
+        }
     }
 }

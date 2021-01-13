@@ -268,7 +268,27 @@ namespace AttendanceSystem
         
         public void EditStudent()
         {
+            
+            int studentID;
 
+            do
+            {
+                Console.WriteLine("Student ID:");
+                studentID = Convert.ToInt32(Console.ReadLine());
+            }
+            while (!studentService.DoesStudentExist(studentID));
+
+
+            Console.WriteLine("Input Student Name:");
+            string studentName = Console.ReadLine();
+
+            Console.WriteLine("Input Student Surname:");
+            string studentSurname = Console.ReadLine();
+
+            Console.WriteLine("Input Student Email:");
+            string studentEmail = Console.ReadLine();
+
+            studentService.EditStudent(studentID, studentName, studentSurname, studentEmail);
         }
     }
 

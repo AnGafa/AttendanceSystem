@@ -9,3 +9,4 @@ C:\Users\andre\source\repos\AttendanceSystem\Common\obj\Debug\Common.csproj.Core
 C:\Users\andre\source\repos\AttendanceSystem\Common\obj\Debug\Common.csproj.CopyComplete
 C:\Users\andre\source\repos\AttendanceSystem\Common\obj\Debug\Common.dll
 C:\Users\andre\source\repos\AttendanceSystem\Common\obj\Debug\Common.pdb
+C:\Users\andre\source\repos\AttendanceSystem\Common\obj\Debug\Common.csprojAssemblyReference.cache

@@ -35,5 +35,24 @@ namespace DataAccess
             MyConnection.Students.Add(newStudent);
             MyConnection.SaveChanges();
         }
+
+        public void editStudent(int studentID, string studentName, string studentSurname, string studentEmail)
+        {
+
+            Student student = MyConnection.Students.SingleOrDefault(s => s.StudentID == studentID);
+
+            if (student == null)
+            {
+                // we checked before so this should not fire...ever
+                throw new Exception("Student does not exist");
+            }
+
+            student.Name = studentName;
+            student.Surname = studentSurname;
+            student.Email = studentEmail;
+
+            MyConnection.SaveChanges();
+
+        }
     }
 }
