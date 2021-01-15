@@ -21,9 +21,14 @@ namespace BusinessLogic
             return _teacherRepo.GetTeachers().ToList();
         }
 
-        public bool DoesTeacherExist(string uName)
+        public bool DoesTeacherNameExist(string uName)
         {
-            return _teacherRepo.DoesTeacherExist(uName);
+            return _teacherRepo.DoesTeacherNameExist(uName);
+        }
+
+        public bool DoesTeacherIDExist(int uID)
+        {
+            return _teacherRepo.DoesTeacherIDExist(uID);
         }
 
         public int VerifyCredentials(string userName, string password)

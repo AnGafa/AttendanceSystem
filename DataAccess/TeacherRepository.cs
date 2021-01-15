@@ -18,9 +18,14 @@ namespace DataAccess
             return MyConnection.Teachers;
         }
 
-        public bool DoesTeacherExist(string uName)
+        public bool DoesTeacherNameExist(string uName)
         {
             return MyConnection.Teachers.Any(t => t.Username.Equals(uName)); 
+        }
+
+        public bool DoesTeacherIDExist(int uID)
+        {
+            return MyConnection.Teachers.Any(t => t.TeacherID.Equals(uID));
         }
 
         public int VerifyCredentials(string userName, string password)

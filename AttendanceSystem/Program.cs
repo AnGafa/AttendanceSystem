@@ -60,7 +60,7 @@ namespace AttendanceSystem
             Console.WriteLine("UserName:");
             var userName = Console.ReadLine();
 
-            bool userExists = teacherService.DoesTeacherExist(userName);
+            bool userExists = teacherService.DoesTeacherNameExist(userName);
 
             if (userExists)
             {
@@ -93,46 +93,57 @@ namespace AttendanceSystem
 
         public void ExecuteAddAttendance()
         {
-
+            Console.WriteLine("groups:");
             foreach (var g in groupService.GetGroup())
             {
                 Console.WriteLine($"{g.GroupID}. {g.Name}");
             }
+            Console.WriteLine("--------------------------\n");
 
-            Console.WriteLine("Input group ID");
-            int userGroupID = Convert.ToInt32(Console.ReadLine());
-
-            bool userGroupExists = groupService.DoesGroupExist(userGroupID);
-
-            if (userGroupExists)
+            try
             {
-                DateTime now = DateTime.Now;
+                Console.WriteLine("Input group ID");
+                int userGroupID = Convert.ToInt32(Console.ReadLine());
 
-                int lessonID = lessonService.addNewLesson(userGroupID, now, loggedUserID);
+                bool userGroupExists = groupService.DoesGroupExist(userGroupID);
 
-                Console.WriteLine("input a or p");
-                
-                string studentAttendance = "";
-
-                Console.WriteLine($"StudentID\tName\tSurname\tp/a");
-                foreach (var s in studentService.GetStudentsFromGroup(userGroupID))
+                if (userGroupExists)
                 {
-                    do
+                    DateTime now = DateTime.Now;
+
+                    int lessonID = lessonService.addNewLesson(userGroupID, now, loggedUserID);
+
+                    Console.WriteLine("input a or p");
+
+                    string studentAttendance = "";
+
+                    Console.WriteLine($"StudentID\tName\tSurname\tp/a");
+                    foreach (var s in studentService.GetStudentsFromGroup(userGroupID))
                     {
-                        studentAttendance = "";
-                        Console.Write($"{s.StudentID}\t{s.Name}\t{s.Surname}\t");
-                        studentAttendance = Console.ReadLine();
+                        do
+                        {
+                            studentAttendance = "";
+                            Console.Write($"{s.StudentID}\t{s.Name}\t{s.Surname}\t");
+                            studentAttendance = Console.ReadLine();
+                        }
+                        while (!studentAttendance.Equals("a") && !studentAttendance.Equals("p"));
+
+                        attendanceService.SetStudentAttandanceRecord(lessonID, s.StudentID, studentAttendance);
                     }
-                    while (!studentAttendance.Equals("a") && !studentAttendance.Equals("p"));
 
-                    attendanceService.SetStudentAttandanceRecord(lessonID, s.StudentID, studentAttendance);
+                    Console.WriteLine("All records entered. Press any key to continue...");
+
                 }
-
-                Console.WriteLine("All records entered. Press any key to continue...");
+                else
+                    System.Console.WriteLine("Group ID does not exist");
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Invalid input.");
 
             }
-            else
-                System.Console.WriteLine("Group ID does not exist");
+
+            
 
         }
 
@@ -150,145 +161,191 @@ namespace AttendanceSystem
 
         public void AddStudent()
         {
-            foreach (var g in groupService.GetGroup())
+            try
             {
-                Console.WriteLine($"{g.GroupID}. {g.Name}");
-            }
+                Console.WriteLine("groups:");
 
-            Console.WriteLine("Input student's group ID");
-
-            int userStudentGroupID = Convert.ToInt32(Console.ReadLine());
-
-            bool userStudentGroupExists = groupService.DoesGroupExist(userStudentGroupID);
-
-            if (userStudentGroupExists)
-            {
-                Console.WriteLine("Input Student ID:");
-                int userStudentID = Convert.ToInt32(Console.ReadLine());
-
-                Console.WriteLine("Input Student Name:");
-                string userStudentName = Console.ReadLine();
-
-                Console.WriteLine("Input Student Surname:");
-                string userStudentSurname = Console.ReadLine();
-
-                Console.WriteLine("Input Student Email:");
-                string userStudentEmail = Console.ReadLine();
-
-                try
+                foreach (var g in groupService.GetGroup())
                 {
+                    Console.WriteLine($"{g.GroupID}. {g.Name}");
+                }
+
+                Console.WriteLine("--------------------------\n");
+                Console.WriteLine("Input student's group ID");
+
+                int userStudentGroupID = Convert.ToInt32(Console.ReadLine());
+
+                bool userStudentGroupExists = groupService.DoesGroupExist(userStudentGroupID);
+
+                if (userStudentGroupExists)
+                {
+                    Console.WriteLine("Input Student ID:");
+                    int userStudentID = Convert.ToInt32(Console.ReadLine());
+
+                    Console.WriteLine("Input Student Name:");
+                    string userStudentName = Console.ReadLine();
+
+                    Console.WriteLine("Input Student Surname:");
+                    string userStudentSurname = Console.ReadLine();
+
+                    Console.WriteLine("Input Student Email:");
+                    string userStudentEmail = Console.ReadLine();
+
                     studentService.addNewStudent(userStudentID, userStudentName, userStudentSurname, userStudentEmail, userStudentGroupID);
                     Console.WriteLine("Record entered. Press any key to continue...");
+                  
                 }
-                catch
-                {
+                else
+                    System.Console.WriteLine("Group ID does not exist");
 
-                }
+            }catch(FormatException)
+            {
+                Console.WriteLine("Invalid Input");
             }
-            else
-                System.Console.WriteLine("Group ID does not exist");
         }
         
         public void AddTeacher()
         {
-            Console.WriteLine("Input Teacher ID:");
-            int userTeacherID = Convert.ToInt32(Console.ReadLine());
-
-            Console.WriteLine("Input Teacher Username:");
-            string userTeacherUsername = Console.ReadLine();
-
-            Console.WriteLine("Input Teacher Password:");
-            string userTeacherPassword = Console.ReadLine();
-
-            Console.WriteLine("Input Teacher Name:");
-            string userTeacherName = Console.ReadLine();
-
-            Console.WriteLine("Input Teacher Surname:");
-            string userTeacherSurname = Console.ReadLine();
-
-            Console.WriteLine("Input Teacher Email:");
-            string userTeacherEmail = Console.ReadLine();
-
             try
             {
-                teacherService.addNewTeacher(userTeacherID, userTeacherUsername, userTeacherPassword, userTeacherName, userTeacherSurname, userTeacherEmail);
-                Console.WriteLine("Record entered. Press any key to continue...");
-            }
-            catch
-            {
+                Console.WriteLine("Input Teacher ID:");
+                int userTeacherID = Convert.ToInt32(Console.ReadLine());
 
+                bool userTeacherExists = teacherService.DoesTeacherIDExist(userTeacherID);
+
+                if (userTeacherExists)
+                {
+                    Console.WriteLine("Teacher Exists");
+                }
+                else
+                {
+
+                    Console.WriteLine("Input Teacher Username:");
+                    string userTeacherUsername = Console.ReadLine();
+
+                    Console.WriteLine("Input Teacher Password:");
+                    string userTeacherPassword = Console.ReadLine();
+
+                    Console.WriteLine("Input Teacher Name:");
+                    string userTeacherName = Console.ReadLine();
+
+                    Console.WriteLine("Input Teacher Surname:");
+                    string userTeacherSurname = Console.ReadLine();
+
+                    Console.WriteLine("Input Teacher Email:");
+                    string userTeacherEmail = Console.ReadLine();
+
+                    teacherService.addNewTeacher(userTeacherID, userTeacherUsername, userTeacherPassword, userTeacherName, userTeacherSurname, userTeacherEmail);
+                    Console.WriteLine("Record entered. Press any key to continue...");
+                }
+            }catch(FormatException)
+            {
+                Console.WriteLine("Invalid Input");
             }
         }
     
         public void StudentPercentage()
         {
-            Console.WriteLine("Enter Student ID");
-            int userStudentID = Convert.ToInt32(Console.ReadLine());
-
-            bool userExists = studentService.DoesStudentExist(userStudentID);
-
-            double t = 0;
-            double f = 0;
-
-            if(userExists)
+            try
             {
-                foreach (var a in attendanceService.GetStudentAttendances(userStudentID))
-                { 
-                    if(a.Presence == true)
+                Console.WriteLine("Enter Student ID");
+                int userStudentID = Convert.ToInt32(Console.ReadLine());
+
+                bool userExists = studentService.DoesStudentExist(userStudentID);
+
+                double t = 0;
+                double f = 0;
+
+                if (userExists)
+                {
+                    foreach (var a in attendanceService.GetStudentAttendances(userStudentID))
                     {
-                        t++;
+                        if (a.Presence == true)
+                        {
+                            t++;
+                        }
+                        else
+                        {
+                            f++;
+                        }
+                    }
+                    if (t + f == 0)
+                    {
+                        Console.WriteLine("Students attendance percentage is 0%");
                     }
                     else
                     {
-                        f++;
+                        double attPercentage = (t / (t + f)) * 100;
+                        Console.WriteLine("Students attendance percentage is " + attPercentage + "%");
                     }
+
                 }
-                double attPercentage = (t / (t + f)) * 100;
-                Console.WriteLine("Students attendance percentage is " + attPercentage+"%");
+                else
+                {
+                    Console.WriteLine("Invalid student ID or no attendance record found");
+                }
+            }
+            catch(FormatException)
+            {
+                Console.WriteLine("Invalid Input");
             }
         }
 
         public void StudentAttendanceOnDate()
         {
-            Console.WriteLine("Day:\t");
-            int userDay = Convert.ToInt32(Console.ReadLine());
+            try
+            {
+                Console.WriteLine("Day:\t");
+                int userDay = Convert.ToInt32(Console.ReadLine());
 
-            Console.WriteLine("Month:\t");
-            int userMonth = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Month:\t");
+                int userMonth = Convert.ToInt32(Console.ReadLine());
 
-            Console.WriteLine("Year:\t");
-            int userYear = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Year:\t");
+                int userYear = Convert.ToInt32(Console.ReadLine());
 
-            DateTime userDateTime = new DateTime(userYear, userMonth, userDay);
+                DateTime userDateTime = new DateTime(userYear, userMonth, userDay);
 
-            int noOfAttendances = lessonService.GetNumberLessonsAtDate(loggedUserID, userDateTime);
+                int noOfAttendances = lessonService.GetNumberLessonsAtDate(loggedUserID, userDateTime);
 
-            Console.WriteLine("No" + noOfAttendances);
+                Console.WriteLine("\n" + noOfAttendances +" attendances");
+            }
+            catch
+            {
+                Console.WriteLine("Invalid Date");
+            }
         }
-        
+
         public void EditStudent()
         {
-            
-            int studentID;
-
-            do
+            try
             {
-                Console.WriteLine("Student ID:");
-                studentID = Convert.ToInt32(Console.ReadLine());
+
+                int studentID;
+
+                do
+                {
+                    Console.WriteLine("Student ID:");
+                    studentID = Convert.ToInt32(Console.ReadLine());
+                }
+                while (!studentService.DoesStudentExist(studentID));
+
+
+                Console.WriteLine("Input Student Name:");
+                string studentName = Console.ReadLine();
+
+                Console.WriteLine("Input Student Surname:");
+                string studentSurname = Console.ReadLine();
+
+                Console.WriteLine("Input Student Email:");
+                string studentEmail = Console.ReadLine();
+
+                studentService.EditStudent(studentID, studentName, studentSurname, studentEmail);
+
+            }catch(FormatException)
+            {
+                Console.WriteLine("Invalid input");
             }
-            while (!studentService.DoesStudentExist(studentID));
-
-
-            Console.WriteLine("Input Student Name:");
-            string studentName = Console.ReadLine();
-
-            Console.WriteLine("Input Student Surname:");
-            string studentSurname = Console.ReadLine();
-
-            Console.WriteLine("Input Student Email:");
-            string studentEmail = Console.ReadLine();
-
-            studentService.EditStudent(studentID, studentName, studentSurname, studentEmail);
         }
     }
 
@@ -432,7 +489,7 @@ namespace AttendanceSystem
         private void ProcessSelection(int option)
         {
             // make sure that selection is a valid one
-            if (option < 0 || option > this.menuOption)
+            if (option < 0 || option > (this.menuOption-1))
             {
                 System.Console.WriteLine("Invalid option. Press any Key to continue...");
                 System.Console.ReadLine();
@@ -441,6 +498,7 @@ namespace AttendanceSystem
             }
 
             // execute the associated menu item function
+            Console.Clear();
             this.menuItems[option].Exec();
 
             // workaround for cascading menus bug
